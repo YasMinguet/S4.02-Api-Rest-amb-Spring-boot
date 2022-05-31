@@ -39,7 +39,6 @@ public class FruitaService {
 			} else {
 				throw new Exception();
 			}
-
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
