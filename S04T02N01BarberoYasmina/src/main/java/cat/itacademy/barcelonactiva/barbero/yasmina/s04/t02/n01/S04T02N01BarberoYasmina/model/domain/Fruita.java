@@ -3,6 +3,7 @@ package cat.itacademy.barcelonactiva.barbero.yasmina.s04.t02.n01.S04T02N01Barber
 
 import javax.persistence.*;
 
+
 @Entity
 @Table (name="fruites")
 public class Fruita {
@@ -12,8 +13,10 @@ public class Fruita {
 	private int id;
 	@Column (name="nom")
 	private String nom;
-	@Column (name="quantitat en kg")
+	@Column (name="quantitatEnKg")
 	private int quantitatKg;
+	
+	public Fruita(){}
 	
 	public Fruita(String nom, int id, int quantitatKg) {
 		this.nom=nom;

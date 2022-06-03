@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cat.itacademy.barcelonactiva.barbero.yasmina.s04.t02.n01.S04T02N01BarberoYasmina.model.domain.Fruita;
@@ -24,8 +25,8 @@ public class FruitaController {
 
 	@Autowired
 	FruitaService fruitaService;
-
-	@GetMapping("/getAll")
+	
+	@RequestMapping(value = "/getAll")
 	public ResponseEntity<List<Fruita>> getAll(@RequestParam(required = false) String nom) {
 		try {
 			List<Fruita> fruites = new ArrayList<Fruita>();
@@ -40,13 +41,18 @@ public class FruitaController {
 		}
 	}
 
-	@GetMapping("/getOne/{id}")
+	@RequestMapping(value = "/getOne/{id}")
 	public ResponseEntity<Fruita> getOne(@PathVariable("id") int id) {
-		Fruita fruita = fruitaService.getOne(id);
-		if (fruita != null) {
-			return new ResponseEntity<>(fruita, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+		try {
+			Fruita fruita = fruitaService.getOne(id);
+			if (fruita != null) {
+				return new ResponseEntity<>(fruita, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}catch(Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
