@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cat.itacademy.barcelonactiva.barbero.yasmina.s04.t02.n01.S04T02N01BarberoYasmina.model.domain.Fruita;
@@ -68,15 +66,14 @@ public class FruitaController {
 
 	@PutMapping("/update/{id}")
 	public ResponseEntity<String> update(@PathVariable("id") int id, @RequestBody Fruita fruita) {
-		Fruita _fruita = fruitaService.getOne(id);
-		if (_fruita != null) {
-			_fruita.setId(id);
-			_fruita.setNom(fruita.getNom());
-			_fruita.setQuantitatKg(fruita.getQuantitatKg());
-			fruitaService.update(_fruita);
+		try {
+			Fruita f =fruitaService.update(fruita);
+			if(f==null) {
+				return new ResponseEntity<>("No es troba la fruita amb id: " + id, HttpStatus.NOT_FOUND);
+			}
 			return new ResponseEntity<>("La fruita s'ha actualitzat correctament.", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("No se encuentra la fruta con id: " + id, HttpStatus.NOT_FOUND);
+		}catch (Exception e) {
+			return new ResponseEntity<>("No s'ha pogut actualitzar la fruita amb id: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -85,11 +82,11 @@ public class FruitaController {
 		try {
 			boolean result = fruitaService.delete(id);
 			if (result == false) {
-				return new ResponseEntity<>("No se encuentra la fruta con id: " + id, HttpStatus.OK);
+				return new ResponseEntity<>("\"No es troba la fruita amb id: " + id, HttpStatus.OK);
 			}
 			return new ResponseEntity<>("La fruita s'ha esborrat correctament.", HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>("No se ha podido borrar la fruta.", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("No s'ha pogut esborrar la fruita amb id", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
