@@ -23,7 +23,7 @@ public class FruitaController {
 
 	@Autowired
 	FruitaService fruitaService;
-	
+
 	@RequestMapping(value = "/getAll")
 	public ResponseEntity<List<Fruita>> getAll(@RequestParam(required = false) String nom) {
 		try {
@@ -41,7 +41,7 @@ public class FruitaController {
 
 	@RequestMapping(value = "/getOne/{id}")
 	public ResponseEntity<Fruita> getOne(@PathVariable("id") int id) {
-		
+
 		try {
 			Fruita fruita = fruitaService.getOne(id);
 			if (fruita != null) {
@@ -49,7 +49,7 @@ public class FruitaController {
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -67,13 +67,14 @@ public class FruitaController {
 	@PutMapping("/update/{id}")
 	public ResponseEntity<String> update(@PathVariable("id") int id, @RequestBody Fruita fruita) {
 		try {
-			Fruita f =fruitaService.update(fruita);
-			if(f==null) {
+			Fruita f = fruitaService.update(fruita);
+			if (f == null) {
 				return new ResponseEntity<>("No es troba la fruita amb id: " + id, HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>("La fruita s'ha actualitzat correctament.", HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>("No s'ha pogut actualitzar la fruita amb id: " + id, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			return new ResponseEntity<>("No s'ha pogut actualitzar la fruita amb id: " + id,
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

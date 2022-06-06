@@ -27,7 +27,7 @@ public class FruitaServiceImp implements FruitaService{
 		try {
 			Optional <Fruita> op =fruitaRepo.findById(fruita.getId());
 			if (op.isPresent()) {
-				Fruita f=op.get();
+				Fruita f = op.get();
 				f.setId(fruita.getId());
 				f.setNom(fruita.getNom());
 				f.setQuantitatKg(fruita.getQuantitatKg());
